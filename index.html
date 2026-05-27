@@ -1,36 +1,1351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bliss Coffee Demo</title>
-<style>
-body{
-font-family:Arial,sans-serif;
-background:#1b120d;
-color:#fffaf2;
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-margin:0;
-}
-.card{
-max-width:700px;
-padding:40px;
-border-radius:24px;
-background:#2b1a12;
-text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,.4);
-}
-h1{font-size:56px;margin-bottom:10px;}
-p{line-height:1.7;color:#d9b98f;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bliss Coffee Co. | Kimberley Coffee, Beans & Café</title>
+  <meta name="description" content="Bliss Coffee Co. is a premium coffee company serving fresh coffee, roasted beans and café favourites in Kimberley." />
+  <meta name="theme-color" content="#1b120d" />
+
+  <style>
+    :root {
+      --espresso: #1b120d;
+      --espresso-2: #2b1a12;
+      --cream: #f7efe4;
+      --foam: #fffaf2;
+      --latte: #d9b98f;
+      --caramel: #b8793d;
+      --gold: #d7a95f;
+      --muted: #9f8b78;
+      --line: rgba(255,255,255,.14);
+      --dark-line: rgba(43,26,18,.16);
+      --shadow: 0 24px 70px rgba(0,0,0,.28);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--espresso);
+      color: var(--foam);
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .09;
+      z-index: 999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .nav {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1120px, calc(100% - 28px));
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px 12px 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      background: rgba(27,18,13,.74);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 16px 45px rgba(0,0,0,.25);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .78rem;
+    }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 25%, #ffe1a3, var(--gold) 38%, var(--caramel) 67%, #5c321d 100%);
+      display: grid;
+      place-items: center;
+      color: #1b120d;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: rgba(255,250,242,.74);
+      font-size: .86rem;
+      transition: .25s ease;
+    }
+    .nav-links a:hover { background: rgba(255,255,255,.09); color: var(--foam); }
+    .nav-cta {
+      padding: 10px 16px !important;
+      background: var(--foam) !important;
+      color: var(--espresso) !important;
+      font-weight: 800;
+    }
+
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      display: grid;
+      align-items: end;
+      padding: 132px 20px 42px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(27,18,13,.10), rgba(27,18,13,.76) 66%, var(--espresso) 100%),
+        radial-gradient(circle at 80% 20%, rgba(215,169,95,.22), transparent 34%),
+        radial-gradient(circle at 20% 70%, rgba(184,121,61,.2), transparent 35%),
+        url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1800&q=85') center/cover;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 220px;
+      background: linear-gradient(0deg, var(--espresso), transparent);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 34px;
+      align-items: end;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--latte);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: .72rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: var(--gold);
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(4.2rem, 12vw, 10.5rem);
+      line-height: .78;
+      letter-spacing: -.08em;
+      margin-left: -8px;
+      text-wrap: balance;
+    }
+    .hero-copy {
+      max-width: 570px;
+      color: rgba(255,250,242,.77);
+      font-size: clamp(1.02rem, 1.8vw, 1.22rem);
+      line-height: 1.7;
+      margin-top: 24px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 13px 19px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      cursor: pointer;
+      transition: .28s ease;
+      font-weight: 800;
+      font-size: .92rem;
+    }
+    .btn-primary { background: var(--foam); color: var(--espresso); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0,0,0,.24); }
+    .btn-ghost { background: rgba(255,255,255,.08); color: var(--foam); backdrop-filter: blur(16px); }
+    .btn-ghost:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); }
+
+    .hero-card {
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: rgba(27,18,13,.62);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      animation: floatCard 6s ease-in-out infinite;
+    }
+    @keyframes floatCard { 50% { transform: translateY(-12px); } }
+    .hero-card img {
+      height: 300px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 22px;
+      filter: saturate(1.05) contrast(1.04);
+    }
+    .hero-card-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 6px 4px;
+    }
+    .hero-card strong { font-family: Georgia, serif; font-size: 1.55rem; }
+    .hero-card span { color: rgba(255,250,242,.62); font-size: .88rem; line-height: 1.45; }
+
+    section { padding: 92px 20px; position: relative; }
+    .wrap { width: min(1120px, 100%); margin: 0 auto; }
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr .8fr;
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    .section-head h2 {
+      font-family: Georgia, serif;
+      font-size: clamp(2.4rem, 6vw, 5.2rem);
+      line-height: .92;
+      letter-spacing: -.055em;
+    }
+    .section-head p { color: rgba(255,250,242,.68); line-height: 1.75; }
+
+    .cream-section {
+      background: var(--cream);
+      color: var(--espresso);
+    }
+    .cream-section .section-head p { color: rgba(43,26,18,.68); }
+    .cream-section .eyebrow { color: var(--caramel); }
+    .cream-section .eyebrow::before { background: var(--caramel); }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 18px;
+    }
+    .story-panel {
+      min-height: 430px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--dark-line);
+      background: var(--foam);
+    }
+    .story-panel.image {
+      background: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&q=85') center/cover;
+    }
+    .story-panel.text {
+      padding: clamp(24px, 5vw, 52px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .story-panel h3 { font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 4.1rem); line-height: .94; letter-spacing: -.04em; }
+    .story-panel p { color: rgba(43,26,18,.68); line-height: 1.8; margin-top: 18px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 34px;
+    }
+    .stat {
+      border: 1px solid var(--dark-line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,.45);
+    }
+    .stat strong { display: block; font-family: Georgia, serif; font-size: 1.7rem; }
+    .stat span { color: rgba(43,26,18,.55); font-size: .82rem; }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .filter {
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,250,242,.74);
+      background: rgba(255,255,255,.06);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .25s ease;
+      font-weight: 700;
+      font-size: .88rem;
+    }
+    .filter.active, .filter:hover { background: var(--foam); color: var(--espresso); }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .product-card {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+      overflow: hidden;
+      position: relative;
+      transition: .35s ease;
+    }
+    .product-card:hover { transform: translateY(-8px); border-color: rgba(215,169,95,.55); box-shadow: var(--shadow); }
+    .product-img {
+      height: 300px;
+      width: 100%;
+      object-fit: cover;
+      background: #2a1b13;
+    }
+    .product-info { padding: 20px; }
+    .pill {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(215,169,95,.14);
+      color: #f1cf91;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .product-info h3 { font-family: Georgia, serif; font-size: 1.75rem; letter-spacing: -.035em; margin-bottom: 8px; }
+    .product-info p { color: rgba(255,250,242,.63); line-height: 1.6; font-size: .94rem; min-height: 60px; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; }
+    .price { font-weight: 900; color: var(--latte); }
+    .small-btn {
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: var(--foam);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: .25s ease;
+    }
+    .small-btn:hover { background: var(--foam); color: var(--espresso); }
+
+    .menu-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .menu-item {
+      min-height: 250px;
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(180deg, rgba(27,18,13,.16), rgba(27,18,13,.84)),
+        var(--image) center/cover;
+      border: 1px solid rgba(43,26,18,.16);
+      overflow: hidden;
+      transition: .35s ease;
+      cursor: pointer;
+      color: var(--foam);
+      text-align: left;
+      position: relative;
+      isolation: isolate;
+    }
+    .menu-item::after {
+      content: "View menu";
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255,250,242,.92);
+      color: var(--espresso);
+      font-weight: 900;
+      font-size: .76rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .3s ease;
+    }
+    .menu-item:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(43,26,18,.22); }
+    .menu-item:hover::after { opacity: 1; transform: translateY(0); }
+    .menu-item h3 { font-family: Georgia, serif; font-size: 2rem; letter-spacing: -.04em; max-width: 80%; }
+    .menu-item p { color: rgba(255,250,242,.72); line-height: 1.55; font-size: .92rem; max-width: 78%; }
+
+    .menu-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(19,12,8,.72);
+      backdrop-filter: blur(18px);
+    }
+    .menu-modal.open { display: flex; }
+    .menu-modal-card {
+      width: min(860px, 100%);
+      max-height: min(780px, 90svh);
+      overflow: auto;
+      border-radius: 34px;
+      background: var(--foam);
+      color: var(--espresso);
+      box-shadow: 0 34px 100px rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.22);
+      animation: menuPop .28s ease both;
+    }
+    @keyframes menuPop {
+      from { opacity: 0; transform: translateY(18px) scale(.98); }
+      to { opacity: 1; transform: none; }
+    }
+    .menu-modal-hero {
+      min-height: 230px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(180deg, rgba(27,18,13,.12), rgba(27,18,13,.82)),
+        var(--modal-image) center/cover;
+      color: var(--foam);
+      border-radius: 34px 34px 0 0;
+    }
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+    }
+    .close-modal {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.12);
+      color: var(--foam);
+      cursor: pointer;
+      font-size: 1.3rem;
+      line-height: 1;
+      transition: .25s ease;
+    }
+    .close-modal:hover { background: var(--foam); color: var(--espresso); }
+    .menu-modal-hero h3 {
+      font-family: Georgia, serif;
+      font-size: clamp(2.6rem, 7vw, 5.3rem);
+      line-height: .86;
+      letter-spacing: -.06em;
+      margin-top: 56px;
+    }
+    .menu-modal-hero p { color: rgba(255,250,242,.72); max-width: 520px; line-height: 1.6; margin-top: 14px; }
+    .menu-modal-body { padding: 20px; }
+    .menu-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .real-menu-item {
+      border: 1px solid var(--dark-line);
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255,255,255,.52);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: start;
+    }
+    .real-menu-item h4 { font-size: 1rem; margin-bottom: 5px; }
+    .real-menu-item p { color: rgba(43,26,18,.62); line-height: 1.5; font-size: .88rem; }
+    .real-menu-item strong { color: var(--caramel); white-space: nowrap; }
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 0 20px 22px;
+    }
+    .modal-actions .btn-ghost {
+      background: var(--espresso);
+      color: var(--foam);
+    }
+    .modal-actions .btn-primary {
+      background: var(--caramel);
+      color: var(--foam);
+    }
+
+    .tour-section {
+      background: var(--espresso);
+      color: var(--foam);
+      overflow: hidden;
+    }
+    .tour-card {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .tour-copy {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      padding: clamp(24px, 4vw, 46px);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 430px;
+    }
+    .tour-copy h2 {
+      font-family: Georgia, serif;
+      font-size: clamp(2.8rem, 6vw, 5.4rem);
+      line-height: .86;
+      letter-spacing: -.065em;
+      margin-bottom: 18px;
+    }
+    .tour-copy p { color: rgba(255,250,242,.68); line-height: 1.75; }
+    .tour-frame-wrap {
+      min-height: 430px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        linear-gradient(180deg, rgba(27,18,13,.12), rgba(27,18,13,.78)),
+        url('https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1400&q=85') center/cover;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    .tour-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      border: 0;
+      display: block;
+      background: #130c08;
+    }
+    .tour-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+    }
+    .tour-placeholder-inner {
+      max-width: 420px;
+      padding: 24px;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(27,18,13,.68);
+      backdrop-filter: blur(18px);
+    }
+    .tour-placeholder-inner strong {
+      display: block;
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      letter-spacing: -.04em;
+      margin-bottom: 10px;
+    }
+    .tour-placeholder-inner span { color: rgba(255,250,242,.7); line-height: 1.6; }
+
+    .visit {
+      background:
+        linear-gradient(90deg, rgba(27,18,13,.92), rgba(27,18,13,.68)),
+        url('https://images.unsplash.com/photo-1511081692775-05d0f180a065?auto=format&fit=crop&w=1800&q=85') center/cover;
+    }
+    .visit-card {
+      width: min(640px, 100%);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      padding: clamp(26px, 5vw, 54px);
+      background: rgba(27,18,13,.64);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+    .visit-card h2 { font-family: Georgia, serif; font-size: clamp(2.8rem, 7vw, 6rem); line-height: .86; letter-spacing: -.07em; margin-bottom: 20px; }
+    .visit-card p { color: rgba(255,250,242,.68); line-height: 1.75; margin-bottom: 28px; }
+    .contact-list { display: grid; gap: 12px; margin: 26px 0; }
+    .contact-list a, .contact-list div {
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.06);
+      color: rgba(255,250,242,.78);
+    }
+
+    footer {
+      padding: 34px 20px;
+      background: #130c08;
+      color: rgba(255,250,242,.56);
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: .88rem;
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: .75s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .shopify-demo-section {
+      background: var(--cream);
+      color: var(--espresso);
+      overflow: hidden;
+    }
+    .shopify-demo-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .shopify-explainer,
+    .shopify-live-box {
+      border: 1px solid var(--dark-line);
+      border-radius: var(--radius);
+      background: var(--foam);
+      box-shadow: 0 20px 60px rgba(43,26,18,.12);
+      overflow: hidden;
+    }
+    .shopify-explainer { padding: clamp(24px, 4vw, 44px); }
+    .shopify-explainer h2 {
+      font-family: Georgia, serif;
+      font-size: clamp(2.5rem, 5.8vw, 5rem);
+      line-height: .88;
+      letter-spacing: -.06em;
+      margin-bottom: 18px;
+    }
+    .shopify-explainer p { color: rgba(43,26,18,.68); line-height: 1.75; margin-bottom: 18px; }
+    .shopify-flow {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .flow-step {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border: 1px solid var(--dark-line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.55);
+    }
+    .flow-step strong:first-child {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--espresso);
+      color: var(--foam);
+      font-size: .86rem;
+    }
+    .flow-step span { color: rgba(43,26,18,.65); line-height: 1.5; font-size: .92rem; }
+    .shopify-live-box { padding: 18px; }
+    .shopify-live-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .shopify-live-head h3 { font-family: Georgia, serif; font-size: 2rem; letter-spacing: -.04em; }
+    .shopify-demo-products {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .shopify-product-demo {
+      border-radius: 22px;
+      border: 1px solid var(--dark-line);
+      overflow: hidden;
+      background: rgba(255,255,255,.5);
+    }
+    .shopify-product-demo img {
+      height: 170px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .shopify-product-demo-body { padding: 15px; }
+    .shopify-product-demo h4 { font-size: 1rem; margin-bottom: 6px; }
+    .shopify-product-demo p { color: rgba(43,26,18,.62); line-height: 1.45; font-size: .86rem; min-height: 50px; }
+    .shopify-product-demo-row {
+      margin-top: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    .shopify-buy-slot {
+      margin-top: 14px;
+      border-radius: 18px;
+      border: 1px dashed rgba(184,121,61,.45);
+      background: rgba(184,121,61,.08);
+      padding: 12px;
+      color: rgba(43,26,18,.68);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+    .demo-cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(410px, 100%);
+      height: 100svh;
+      z-index: 250;
+      background: var(--foam);
+      color: var(--espresso);
+      box-shadow: -24px 0 80px rgba(0,0,0,.35);
+      transform: translateX(105%);
+      transition: .35s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .demo-cart-drawer.open { transform: none; }
+    .demo-cart-head {
+      padding: 20px;
+      border-bottom: 1px solid var(--dark-line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .demo-cart-head h3 { font-family: Georgia, serif; font-size: 2rem; letter-spacing: -.04em; }
+    .demo-cart-body { padding: 20px; overflow: auto; flex: 1; }
+    .demo-cart-item {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--dark-line);
+    }
+    .demo-cart-item img { width: 58px; height: 58px; object-fit: cover; border-radius: 14px; }
+    .demo-cart-item span { color: rgba(43,26,18,.62); font-size: .86rem; }
+    .demo-cart-foot { padding: 20px; border-top: 1px solid var(--dark-line); }
+    .demo-cart-total { display: flex; justify-content: space-between; margin-bottom: 14px; font-weight: 900; }
+    .demo-cart-note {
+      color: rgba(43,26,18,.62);
+      font-size: .84rem;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--foam);
+      color: var(--espresso);
+      padding: 13px 18px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      font-weight: 800;
+      z-index: 260;
+      opacity: 0;
+      pointer-events: none;
+      transition: .28s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 880px) {
+      .nav { top: 10px; width: calc(100% - 20px); }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero { padding-top: 108px; }
+      .hero-inner, .section-head, .story-grid { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      h1 { margin-left: -4px; }
+      .products-grid, .menu-strip, .menu-modal-grid, .tour-card, .shopify-demo-grid, .shopify-demo-products { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      section { padding: 72px 16px; }
+      .product-img { height: 250px; }
+      .menu-modal { padding: 10px; }
+      .menu-modal-card { border-radius: 26px; max-height: 92svh; }
+      .menu-modal-hero { border-radius: 26px 26px 0 0; min-height: 210px; }
+    }
+  </style>
 </head>
 <body>
-<div class="card">
-<h1>Bliss Coffee</h1>
-<p>This downloadable package contains the premium Bliss Coffee demo website concept with menu popups, virtual tour section and Shopify embedded ecommerce demo structure.</p>
-</div>
+  <div class="grain"></div>
+
+  <nav class="nav">
+    <a class="brand" href="#top" aria-label="Bliss Coffee home">
+      <span class="brand-mark">B</span>
+      <span>Bliss Coffee Co.</span>
+    </a>
+    <div class="nav-links">
+      <a href="#story">Story</a>
+      <a href="#shop">Shop</a>
+      <a href="#menu">Menu</a>
+      <a href="#tour">Tour</a>
+      <a href="#visit">Visit</a>
+      <a class="nav-cta" href="https://wa.me/27000000000?text=Hi%20Bliss%20Coffee%2C%20I%27d%20like%20to%20place%20an%20order" target="_blank" rel="noopener">Order</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow reveal">Kimberley coffee • roasted with intent</div>
+        <h1 class="reveal">Bliss<br>Coffee</h1>
+        <p class="hero-copy reveal">A richer coffee experience for people who care about the cup, the craft and the quiet ritual before the day begins.</p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-primary" href="#shop">Shop the beans</a>
+          <a class="btn btn-ghost" href="#menu">View café menu</a>
+        </div>
+      </div>
+      <aside class="hero-card reveal" aria-label="Featured roast">
+        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=85" alt="Fresh coffee being poured" />
+        <div class="hero-card-row">
+          <div>
+            <strong>House Roast</strong><br />
+            <span>Chocolate body, caramel finish, easy morning favourite.</span>
+          </div>
+          <span>250g</span>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <section class="cream-section" id="story">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">The Bliss Standard</div>
+          <h2>Coffee that feels considered, not complicated.</h2>
+        </div>
+        <p>Bliss Coffee Co. brings together quality beans, warm café culture and simple online ordering. Built for daily drinkers, quiet meetings, quick takeaways and bags of beans that actually taste as good at home.</p>
+      </div>
+
+      <div class="story-grid">
+        <div class="story-panel image reveal" aria-label="Coffee shop interior"></div>
+        <div class="story-panel text reveal">
+          <div>
+            <h3>From first sip to final bag.</h3>
+            <p>Every detail on this site is made to sell the experience: the coffee, the atmosphere, the beans and the easy action the customer should take next.</p>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>100%</strong><span>mobile-first</span></div>
+            <div class="stat"><strong>24/7</strong><span>online orders</span></div>
+            <div class="stat"><strong>1 click</strong><span>WhatsApp CTA</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Coffee shop</div>
+          <h2>Beans, blends and café favourites.</h2>
+        </div>
+        <p>Products can be managed manually in the code now, or connected to a published Google Sheet later like the Belgery setup.</p>
+      </div>
+
+      <div class="filters reveal" aria-label="Product filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="beans">Beans</button>
+        <button class="filter" data-filter="drinks">Drinks</button>
+        <button class="filter" data-filter="food">Food</button>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+  </section>
+
+  <section class="cream-section" id="menu">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Menu moments</div>
+          <h2>Built around cravings.</h2>
+        </div>
+        <p>A fast visual menu section that pushes customers toward ordering, visiting or asking what is available today.</p>
+      </div>
+
+      <div class="menu-strip">
+        <button class="menu-item reveal" data-menu="cold" style="--image:url('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=85')">
+          <h3>Cold Drinks</h3>
+          <p>Iced coffee, chillers, smoothies and refreshing café drinks.</p>
+        </button>
+        <button class="menu-item reveal" data-menu="hot" style="--image:url('https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=900&q=85')">
+          <h3>Hot Stuff</h3>
+          <p>Espresso classics, warm comfort drinks and proper café staples.</p>
+        </button>
+        <button class="menu-item reveal" data-menu="breakfast" style="--image:url('https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=85')">
+          <h3>Breakfast</h3>
+          <p>Morning plates, quick bites and coffee-first breakfast options.</p>
+        </button>
+        <button class="menu-item reveal" data-menu="brunch" style="--image:url('https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=900&q=85')">
+          <h3>Brunch</h3>
+          <p>Slow mornings, sweet plates, savoury favourites and café treats.</p>
+        </button>
+      </div>
+
+      <div class="menu-modal" id="menuModal" aria-hidden="true">
+        <div class="menu-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalMenuTitle">
+          <div class="menu-modal-hero" id="modalHero">
+            <div class="modal-top">
+              <span class="pill" id="modalTag">Menu</span>
+              <button class="close-modal" id="closeModal" aria-label="Close menu">×</button>
+            </div>
+            <div>
+              <h3 id="modalMenuTitle">Cold Drinks</h3>
+              <p id="modalMenuText">Choose from the Bliss menu.</p>
+            </div>
+          </div>
+          <div class="menu-modal-body">
+            <div class="menu-modal-grid" id="modalMenuGrid"></div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-ghost" id="closeModalBottom">Back to menu</button>
+            <a class="btn btn-primary" href="https://wa.me/27000000000?text=Hi%20Bliss%20Coffee%2C%20I%27d%20like%20to%20order%20from%20the%20menu" target="_blank" rel="noopener">Order on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shopify-demo-section" id="shopify-demo">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Shopify demo</div>
+          <h2>Custom website. Shopify checkout.</h2>
+        </div>
+        <p>This section shows the exact final idea: the Bliss website remains custom, while Shopify handles the buying infrastructure behind the product buttons.</p>
+      </div>
+
+      <div class="shopify-demo-grid">
+        <div class="shopify-explainer reveal">
+          <h2>The store stays beautiful.</h2>
+          <p>The customer browses a custom Bliss experience, not a generic Shopify template. When they decide to buy beans, Shopify quietly takes over the cart, checkout, payment and order management.</p>
+          <div class="shopify-flow">
+            <div class="flow-step"><strong>1</strong><span><strong>Custom site:</strong> brand, menu, tour, café story and premium product cards.</span></div>
+            <div class="flow-step"><strong>2</strong><span><strong>Shopify button:</strong> product data, variants, cart and checkout are loaded from Shopify.</span></div>
+            <div class="flow-step"><strong>3</strong><span><strong>Shopify admin:</strong> Bliss manages products, stock, orders and customer emails.</span></div>
+          </div>
+        </div>
+
+        <div class="shopify-live-box reveal">
+          <div class="shopify-live-head">
+            <h3>Bean shop demo</h3>
+            <button class="small-btn" onclick="openDemoCart()">Open cart</button>
+          </div>
+          <div class="shopify-demo-products" id="shopifyDemoProducts"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tour-section" id="tour">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Step inside</div>
+          <h2>Explore Bliss before you arrive.</h2>
+        </div>
+        <p>Add your Panoee, Matterport or 360° virtual tour here so customers can feel the café atmosphere before ordering, booking or visiting.</p>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-copy reveal">
+          <div>
+            <h2>A digital doorway into the café.</h2>
+            <p>This slot is designed for a real 360° tour. It gives the website a premium, trust-building feature that separates Bliss from normal coffee shop pages.</p>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://tour.panoee.net/" target="_blank" rel="noopener">Open full tour</a>
+            <a class="btn btn-ghost" href="#visit">Plan a visit</a>
+          </div>
+        </div>
+
+        <div class="tour-frame-wrap reveal">
+          <!-- Replace the placeholder below with the real tour iframe when ready.
+               Example:
+               <iframe src="YOUR_PANOEE_OR_MATTERPORT_EMBED_LINK" allowfullscreen loading="lazy"></iframe>
+          -->
+          <div class="tour-placeholder">
+            <div class="tour-placeholder-inner">
+              <strong>Virtual tour slot</strong>
+              <span>Paste the real Panoee / Matterport iframe here. Until then, this polished placeholder keeps the website looking complete.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="visit">
+    <div class="wrap">
+      <div class="visit-card reveal">
+        <div class="eyebrow">Visit or order</div>
+        <h2>Your next cup is one message away.</h2>
+        <p>Use this section for the real address, business hours, phone number, Google Maps link, Instagram and WhatsApp ordering.</p>
+        <div class="contact-list">
+          <div><strong>Location:</strong> Kimberley, Northern Cape</div>
+          <div><strong>Hours:</strong> Mon–Sat, 07:00–17:00</div>
+          <a href="tel:+27000000000"><strong>Call:</strong> +27 00 000 0000</a>
+          <a href="https://wa.me/27000000000?text=Hi%20Bliss%20Coffee%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener"><strong>WhatsApp:</strong> Place an order</a>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/27000000000?text=Hi%20Bliss%20Coffee%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener">Order on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Bliss Coffee Co. All rights reserved.</div>
+      <div>Website by Fourie Design • Privacy-minded • POPIA-aware</div>
+    </div>
+  </footer>
+
+  <aside class="demo-cart-drawer" id="demoCartDrawer" aria-hidden="true">
+    <div class="demo-cart-head">
+      <h3>Demo cart</h3>
+      <button class="close-modal" onclick="closeDemoCart()" aria-label="Close cart">×</button>
+    </div>
+    <div class="demo-cart-body" id="demoCartItems"></div>
+    <div class="demo-cart-foot">
+      <div class="demo-cart-total"><span>Total</span><strong id="demoCartTotal">R0</strong></div>
+      <button class="btn btn-primary" style="width:100%" onclick="fakeCheckout()">Continue to Shopify checkout</button>
+      <p class="demo-cart-note">Demo only: in the real version this drawer/button is replaced by Shopify's Buy Button cart and secure checkout.</p>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast">Added to order enquiry</div>
+
+  <script>
+    const cafeMenus = {
+      cold: {
+        tag: "Cold Drinks",
+        title: "Cold Drinks",
+        text: "Iced coffee, chillers and refreshing café drinks for warm days and quick takeaways.",
+        image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=1200&q=85",
+        items: [
+          { name: "Iced Bliss Latte", description: "Espresso, chilled milk and a smooth vanilla finish.", price: "R48" },
+          { name: "Iced Americano", description: "Bold espresso over ice. Clean, simple, sharp.", price: "R38" },
+          { name: "Caramel Frappé", description: "Blended coffee, caramel and cream.", price: "R58" },
+          { name: "Mocha Chiller", description: "Chocolate, espresso and crushed ice.", price: "R56" },
+          { name: "Berry Smoothie", description: "Mixed berries, yoghurt and a fresh finish.", price: "R62" },
+          { name: "Fresh Lemonade", description: "House-style lemonade served cold.", price: "R35" }
+        ]
+      },
+      hot: {
+        tag: "Hot Stuff",
+        title: "Hot Stuff",
+        text: "Espresso classics, warm comfort drinks and proper café staples made for slow mornings.",
+        image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=1200&q=85",
+        items: [
+          { name: "Flat White", description: "Velvety milk with a stronger espresso profile.", price: "R38" },
+          { name: "Cappuccino", description: "Classic espresso, steamed milk and foam.", price: "R36" },
+          { name: "Café Latte", description: "Smooth, milky and easy-drinking.", price: "R40" },
+          { name: "Americano", description: "Espresso lengthened with hot water.", price: "R32" },
+          { name: "Hot Chocolate", description: "Rich cocoa, steamed milk and comfort.", price: "R42" },
+          { name: "Chai Latte", description: "Spiced, warm and softly sweet.", price: "R44" }
+        ]
+      },
+      breakfast: {
+        tag: "Breakfast",
+        title: "Breakfast",
+        text: "Morning plates and quick bites made to pair with a proper cup of coffee.",
+        image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=85",
+        items: [
+          { name: "Bliss Breakfast Bun", description: "Egg, cheese and a savoury breakfast filling on a toasted bun.", price: "R65" },
+          { name: "Croissant & Coffee", description: "Butter croissant with your choice of regular coffee.", price: "R72" },
+          { name: "Granola Bowl", description: "Yoghurt, granola, honey and seasonal fruit.", price: "R58" },
+          { name: "Avo Toast", description: "Smashed avo, seasoning and toasted sourdough.", price: "R64" },
+          { name: "Eggs on Toast", description: "Simple, clean and made for early mornings.", price: "R52" },
+          { name: "Breakfast Wrap", description: "Egg, cheese and café-style filling wrapped warm.", price: "R68" }
+        ]
+      },
+      brunch: {
+        tag: "Brunch",
+        title: "Brunch",
+        text: "Sweet plates, savoury favourites and café treats for slower mornings.",
+        image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1200&q=85",
+        items: [
+          { name: "French Toast", description: "Golden toast with syrup, cream and seasonal topping.", price: "R72" },
+          { name: "Chicken Mayo Croissant", description: "Flaky croissant filled with creamy chicken mayo.", price: "R78" },
+          { name: "Toasted Club Sandwich", description: "Layered café-style toastie with a filling bite.", price: "R82" },
+          { name: "Quiche Slice", description: "Fresh slice served with a light side salad.", price: "R64" },
+          { name: "Cake of the Day", description: "Ask what is fresh from the counter today.", price: "R55" },
+          { name: "Brunch Board", description: "A shareable café plate for two.", price: "R145" }
+        ]
+      }
+    };
+
+    const shopifyDemoProducts = [
+      {
+        name: "House Roast Beans",
+        price: 120,
+        description: "Chocolate body, caramel finish and an easy daily cup.",
+        image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=900&q=85",
+        shopifySlot: "product-component-house-roast"
+      },
+      {
+        name: "Seasonal Blend Beans",
+        price: 155,
+        description: "A rotating small-batch blend for coffee drinkers who want something special.",
+        image: "https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=900&q=85",
+        shopifySlot: "product-component-seasonal-blend"
+      },
+      {
+        name: "Bliss Gift Box",
+        price: 295,
+        description: "Coffee beans, café treats and a polished gifting experience.",
+        image: "https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=900&q=85",
+        shopifySlot: "product-component-gift-box"
+      },
+      {
+        name: "Coffee Subscription",
+        price: 480,
+        description: "A monthly bean order concept. Use Shopify apps later if subscriptions are required.",
+        image: "https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=900&q=85",
+        shopifySlot: "product-component-subscription"
+      }
+    ];
+
+    let demoCart = [];
+
+    const products = [
+      {
+        name: "House Roast Beans",
+        category: "beans",
+        tag: "Signature",
+        price: "R120",
+        description: "Balanced daily roast with chocolate depth and a smooth caramel finish.",
+        image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Single Origin Beans",
+        category: "beans",
+        tag: "Limited",
+        price: "R160",
+        description: "Seasonal origin for drinkers who want more character in the cup.",
+        image: "https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Iced Bliss Latte",
+        category: "drinks",
+        tag: "Cold",
+        price: "R48",
+        description: "A creamy iced latte made for hot afternoons and quick takeaways.",
+        image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Flat White",
+        category: "drinks",
+        tag: "Classic",
+        price: "R38",
+        description: "Velvety milk, proper espresso and no unnecessary drama.",
+        image: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Butter Croissant",
+        category: "food",
+        tag: "Fresh",
+        price: "R42",
+        description: "Simple café favourite for mornings, meetings and takeaway coffee runs.",
+        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=900&q=85"
+      },
+      {
+        name: "Bliss Breakfast Bun",
+        category: "food",
+        tag: "Popular",
+        price: "R65",
+        description: "A filling breakfast option designed to pair with a proper coffee.",
+        image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=85"
+      }
+    ];
+
+    const productsGrid = document.getElementById('productsGrid');
+    const toast = document.getElementById('toast');
+    const menuModal = document.getElementById('menuModal');
+    const modalHero = document.getElementById('modalHero');
+    const modalTag = document.getElementById('modalTag');
+    const modalMenuTitle = document.getElementById('modalMenuTitle');
+    const modalMenuText = document.getElementById('modalMenuText');
+    const modalMenuGrid = document.getElementById('modalMenuGrid');
+    const closeModal = document.getElementById('closeModal');
+    const closeModalBottom = document.getElementById('closeModalBottom');
+    const shopifyDemoProductsGrid = document.getElementById('shopifyDemoProducts');
+    const demoCartDrawer = document.getElementById('demoCartDrawer');
+    const demoCartItems = document.getElementById('demoCartItems');
+    const demoCartTotal = document.getElementById('demoCartTotal');
+
+    function renderProducts(filter = 'all') {
+      const filtered = filter === 'all' ? products : products.filter(product => product.category === filter);
+      productsGrid.innerHTML = filtered.map(product => `
+        <article class="product-card reveal visible" data-category="${product.category}">
+          <img class="product-img" src="${product.image}" alt="${product.name}" loading="lazy" />
+          <div class="product-info">
+            <span class="pill">${product.tag}</span>
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="product-bottom">
+              <span class="price">${product.price}</span>
+              <button class="small-btn" onclick="orderProduct('${product.name}')">Enquire</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function orderProduct(name) {
+      const number = '27000000000';
+      const message = encodeURIComponent(`Hi Bliss Coffee, I would like to enquire about: ${name}`);
+      toast.textContent = `${name} enquiry opened`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+      window.open(`https://wa.me/${number}?text=${message}`, '_blank');
+    }
+
+    function renderShopifyDemoProducts() {
+      shopifyDemoProductsGrid.innerHTML = shopifyDemoProducts.map((product, index) => `
+        <article class="shopify-product-demo">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" />
+          <div class="shopify-product-demo-body">
+            <h4>${product.name}</h4>
+            <p>${product.description}</p>
+            <div class="shopify-product-demo-row">
+              <strong>R${product.price}</strong>
+              <button class="small-btn" onclick="addDemoCart(${index})">Add to cart</button>
+            </div>
+            <div class="shopify-buy-slot">
+              Real Shopify embed slot:<br>
+              <code>&lt;div id="${product.shopifySlot}"&gt;&lt;/div&gt;</code>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function addDemoCart(index) {
+      const product = shopifyDemoProducts[index];
+      const existing = demoCart.find(item => item.name === product.name);
+      if (existing) existing.qty += 1;
+      else demoCart.push({ ...product, qty: 1 });
+      renderDemoCart();
+      openDemoCart();
+      toast.textContent = `${product.name} added to demo cart`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    function renderDemoCart() {
+      if (!demoCart.length) {
+        demoCartItems.innerHTML = `<p style="color:rgba(43,26,18,.62);line-height:1.6">Your demo cart is empty. Add a bean product to preview the Shopify-style buying flow.</p>`;
+        demoCartTotal.textContent = 'R0';
+        return;
+      }
+      demoCartItems.innerHTML = demoCart.map(item => `
+        <div class="demo-cart-item">
+          <img src="${item.image}" alt="${item.name}" />
+          <div>
+            <strong>${item.name}</strong><br>
+            <span>Qty ${item.qty} × R${item.price}</span>
+          </div>
+          <strong>R${item.qty * item.price}</strong>
+        </div>
+      `).join('');
+      const total = demoCart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      demoCartTotal.textContent = `R${total}`;
+    }
+
+    function openDemoCart() {
+      demoCartDrawer.classList.add('open');
+      demoCartDrawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDemoCart() {
+      demoCartDrawer.classList.remove('open');
+      demoCartDrawer.setAttribute('aria-hidden', 'true');
+    }
+
+    function fakeCheckout() {
+      toast.textContent = 'Real version redirects to Shopify secure checkout';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    document.querySelectorAll('.filter').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        renderProducts(button.dataset.filter);
+      });
+    });
+
+    function openCafeMenu(menuKey) {
+      const menu = cafeMenus[menuKey];
+      if (!menu) return;
+      modalHero.style.setProperty('--modal-image', `url('${menu.image}')`);
+      modalTag.textContent = menu.tag;
+      modalMenuTitle.textContent = menu.title;
+      modalMenuText.textContent = menu.text;
+      modalMenuGrid.innerHTML = menu.items.map(item => `
+        <div class="real-menu-item">
+          <div>
+            <h4>${item.name}</h4>
+            <p>${item.description}</p>
+          </div>
+          <strong>${item.price}</strong>
+        </div>
+      `).join('');
+      menuModal.classList.add('open');
+      menuModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCafeMenu() {
+      menuModal.classList.remove('open');
+      menuModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.menu-item[data-menu]').forEach(button => {
+      button.addEventListener('click', () => openCafeMenu(button.dataset.menu));
+    });
+
+    closeModal.addEventListener('click', closeCafeMenu);
+    closeModalBottom.addEventListener('click', closeCafeMenu);
+    menuModal.addEventListener('click', event => {
+      if (event.target === menuModal) closeCafeMenu();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeCafeMenu();
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderProducts();
+    renderShopifyDemoProducts();
+    renderDemoCart();
+  </script>
 </body>
 </html>
