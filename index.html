@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bliss Coffee | Coffee, Food & Beans</title>
+  <meta name="description" content="Bliss Coffee — premium coffee, fresh food and beans for sale. View the live menu, order on WhatsApp, and explore the café." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Bliss Coffee home">
+      <img src="assets/bliss-logo.png" alt="Bliss Coffee logo">
+      <span>Bliss Coffee</span>
+    </a>
+    <nav>
+      <a href="#menu">Menu</a>
+      <a href="#beans">Beans</a>
+      <a href="#tour">Tour</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/270000000000?text=Hi%20Bliss%20Coffee%2C%20I%20would%20like%20to%20order." target="_blank" rel="noopener">Order WhatsApp</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Kimberley coffee • food • beans</p>
+        <h1>Bliss is where the day starts properly.</h1>
+        <p class="hero-copy">Fresh coffee, warm food, roasted beans and a space people actually want to come back to.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#menu">View live menu</a>
+          <a class="btn ghost" href="#beans">Buy beans</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <img src="assets/bliss-logo.png" alt="Bliss Coffee logo mark">
+        <p>Fresh cups. Good food. Beans for home.</p>
+      </aside>
+    </section>
+
+    <section class="image-strip" aria-label="Bliss Coffee atmosphere">
+      <div class="strip-card strip-one"><span>espresso bar</span></div>
+      <div class="strip-card strip-two"><span>fresh mornings</span></div>
+      <div class="strip-card strip-three"><span>beans to go</span></div>
+    </section>
+
+    <section class="section menu-section" id="menu">
+      <div class="section-head">
+        <p class="eyebrow">Live menu</p>
+        <h2>Order what you came for.</h2>
+        <p>Menu items load from Google Sheets. The owner edits the sheet — the website updates automatically.</p>
+      </div>
+      <div class="filters" id="menuFilters"></div>
+      <div class="grid" id="menuGrid"><p class="loading">Loading menu…</p></div>
+    </section>
+
+    <section class="beans-section" id="beans">
+      <div class="beans-bg"></div>
+      <div class="section-head invert">
+        <p class="eyebrow">Beans for sale</p>
+        <h2>Let them take Bliss home.</h2>
+        <p>Separate Google Sheet for roasted beans, grind options, tasting notes and WhatsApp enquiries.</p>
+      </div>
+      <div class="beans-grid" id="beansGrid"><p class="loading light">Loading beans…</p></div>
+    </section>
+
+    <section class="tour" id="tour">
+      <div>
+        <p class="eyebrow">Virtual tour</p>
+        <h2>Let people walk in before they arrive.</h2>
+        <p>This slot is for your Panoee / Matterport / Google tour. It makes the pitch feel bigger than a normal coffee shop website.</p>
+      </div>
+      <a class="btn primary" href="#contact">Add tour link</a>
+    </section>
+
+    <section class="reviews" id="reviews">
+      <div class="section-head centered">
+        <p class="eyebrow">Reviews</p>
+        <h2>Proof sells the next cup.</h2>
+      </div>
+      <div class="review-grid">
+        <article><div>★★★★★</div><p>“Best cappuccino in Kimberley. Worth the drive every single time.”</p><strong>— Local customer</strong></article>
+        <article><div>★★★★★</div><p>“The kind of coffee shop you recommend without thinking twice.”</p><strong>— Regular visitor</strong></article>
+        <article><div>★★★★★</div><p>“Good service, proper coffee and beans I actually buy for home.”</p><strong>— Happy guest</strong></article>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div>
+        <p class="eyebrow">Visit Bliss</p>
+        <h2>Coffee first. Everything else after.</h2>
+        <p>Replace the placeholder details below before pitching.</p>
+      </div>
+      <div class="contact-card">
+        <a href="https://wa.me/270000000000" target="_blank" rel="noopener">WhatsApp: add number</a>
+        <a href="mailto:hello@blisscoffee.co.za">Email: hello@blisscoffee.co.za</a>
+        <a href="https://maps.google.com" target="_blank" rel="noopener">Google Maps</a>
+        <span>Mon–Sat: 07:00–17:00</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Bliss Coffee</strong>
+    <p>© 2026 Bliss Coffee. Menu, pricing and availability may change. POPIA-friendly contact use only.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
